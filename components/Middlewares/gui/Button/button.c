@@ -9,29 +9,17 @@ static void switch_event_cb(lv_event_t * e)
         /* 确保布局已计算，坐标有效 */
         lv_obj_update_layout(obj);
 
-        /* 1) switch 当前显示区域（LVGL 逻辑坐标系，已随旋转变化） */
-        lv_area_t coords;
-        lv_obj_get_coords(obj, &coords);
-
-        /* 2) LVGL indev 实际收到的触摸点（同一逻辑坐标系） */
+        /* 注意LVGL期待收到坐标是当前朝向下真实坐标 */
+        /* LVGL 回调函数在lv_indev.c 中indev_pointer_proc对绝对坐标rawxy进行旋转 */
+        /* LVGL indev 实际收到的触摸点 */
         lv_point_t pt = {0, 0};
         lv_indev_t * indev = lv_indev_active();
         if(indev) {
             lv_indev_get_point(indev, &pt);
         }
 
-        if(lv_obj_has_state(obj, LV_STATE_CHECKED)) {
-            ESP_LOGI("Button", "Switch is ON");
-        } else {
-            ESP_LOGI("Button", "Switch is OFF");
-        }
-
-        ESP_LOGI("Button",
-                 "Switch %s | display area x1=%d y1=%d x2=%d y2=%d | "
-                 "expected touch in [%d,%d]~[%d,%d] | indev point=(%d,%d)",
+        ESP_LOGI("Button", "Switch %s, indev point=(%d,%d)",
                  lv_obj_has_state(obj, LV_STATE_CHECKED) ? "ON" : "OFF",
-                 coords.x1, coords.y1, coords.x2, coords.y2,
-                 coords.x1, coords.y1, coords.x2, coords.y2,
                  pt.x, pt.y);
     }
 }

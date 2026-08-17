@@ -31,12 +31,12 @@ static const uint8_t STABLE_THRESHOLD = 3; // 需要连续3次检测一致才确
 static lv_display_rotation_t determine_orientation(float pitch, float roll)
 {
     /* 横屏判断 */
-    if (fabsf(roll) > 45.0f) {
+    if (fabsf(roll) > 30.0f) {
         return roll > 0 ? LV_DISPLAY_ROTATION_90 : LV_DISPLAY_ROTATION_270;
     }
     
     /* 竖屏判断 */
-    if (fabsf(pitch) > 45.0f) {
+    if (fabsf(pitch) > 30.0f) {
         return pitch > 0 ? LV_DISPLAY_ROTATION_180 : LV_DISPLAY_ROTATION_0;
     }
     
