@@ -69,6 +69,10 @@ esp_err_t gt911_init(void)
     // /* GT911 to I2C bus */
     // ESP_ERROR_CHECK(i2c_master_bus_add_device(gt9xxx_iic1_bus_handle, &gt9xxx_i2c_dev_conf, &gt9xxx_handle));
     // ESP_LOGI(gt9xxx_tag, "GT911 I2C device added");
+    /* GT911 地址选择配置 - 必须传入，否则驱动会跳过地址选择时序 */
+    static esp_lcd_touch_io_gt911_config_t gt911_io_config = {
+        .dev_addr = ESP_LCD_TOUCH_IO_I2C_GT911_ADDRESS,  /* 0x5D，对应 INT 拉低 */
+    };
 
     /* panel io config */
     esp_lcd_panel_io_i2c_config_t io_config = {
@@ -82,7 +86,7 @@ esp_err_t gt911_init(void)
             .disable_control_phase = 1, /* 禁用控制阶段 */
         },
     };
-    // io_config = ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG();
+    // io_config =ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG ();
 
     /* panel io handler */
     ret = esp_lcd_new_panel_io_i2c(gt9xxx_iic1_bus_handle, &io_config, &s_gt9xxx_io_handle);
@@ -109,7 +113,7 @@ esp_err_t gt911_init(void)
         .process_coordinates = NULL,    /* 坐标处理回调 */
         .interrupt_callback = NULL,     /* 中断回调 */
         .user_data = NULL,              /* 用户数据 */
-        .driver_data = NULL             /* 驱动数据 */
+        .driver_data = &gt911_io_config           /* 驱动数据 */
     };
     
     /* GT911 touch driver */

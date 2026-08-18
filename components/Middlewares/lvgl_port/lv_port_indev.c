@@ -190,7 +190,7 @@ static void touchpad_init(void)
             vTaskDelay(pdMS_TO_TICKS(1000));
         }
     }
-
+    vTaskDelay(pdMS_TO_TICKS(100));
     ret = tp_dev.init();                 /* 初始化触摸屏 */
     if(ret != ESP_OK){
         ESP_LOGE("lv_port_indev", "touch init failed,ret=%d",ret);

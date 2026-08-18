@@ -16,8 +16,9 @@ i80 bus for LCD
 |Layer |	Directory |	Responsibility |
 |---|---|---|
 |Application|main|Entry point & business logic|
-|Middleware|gui|  GUI framework|
-|Middleware|lvgl_port|  LVGL porting|
+|BSP|components/BSP|	Board Support Package |
+|Middleware|components/Middlewares/gui|  GUI framework|
+|Middleware|components/Middlewares/lvgl_port|  LVGL porting|
 |Dependencies| managed_components |Third-party libraries|
 |||
 
